@@ -1,0 +1,12 @@
+{
+    "makefile.launchConfigurations": [
+        {
+            "cwd": "/workspaces/Assignment1/bin",
+            "binaryPath": "/workspaces/Assignment1/bin/cRace",
+            "binaryArgs": []
+        }
+    ],
+    "files.associations": {
+        "vector": "cpp"
+    }
+}
