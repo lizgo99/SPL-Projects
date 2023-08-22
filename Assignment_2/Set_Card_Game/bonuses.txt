@@ -1,0 +1,84 @@
+BONUS CHALLENGE FORM
+--------------------
+
+For each bonus challenge you have implemented, please replace the sentence "We are not entitled to this bonus."
+with a short description of:
+
+1. How it was implemented in your code
+2. Where it was used (in which class methods).
+3. How you tested that it is working correctly.
+
+--------------------
+
+1. Fully supporting all configuration fields and avoiding the use of magic numbers
+
+We implemented this by using the configuration properties instead of some number. 
+for example instead of writing 12 as the table size we calculated the table size using the number of rows and columns that are in the configuration.
+we supported all the configuration fields by implementing them in our code: 
+we use the TurnTimeoutSeconds as the time when the dealer needs to reshuffle all the cards
+we use the PointFreezeSeconds as the number of seconds a player sleeps when he find a legal set
+we use the PenaltyFreezeSeconds as the number of seconds a player sleeps when the set he found isn't legal
+and so on....
+the functions we used them in: 
+Player:
+run();
+keyPressed();
+point();
+penalty();
+setListToArray();
+placeToken();
+
+Dealer:
+sleepUntilWokenOrTimeout()
+checkSet();
+updateTimerDisplay();
+removeAllCardsFromTable();
+
+we tested it by running multiple scenarios and seeing what happens and what errors show up
+
+--------------------
+
+2. Terminating all threads (that you created) gracefully and in reverse order to the order they were created in.
+
+Our implementation: 
+when the function terminate of the dealer is called the dealer calls the function terminate of the first player in his players array
+and joins that player thread i.e the dealer thread waits for the first player thread to "die". 
+each player calls the terminate function of the next player in the players array of the dealer and joins the next player i.e the player waits for the next player to "die".
+
+this implementation is in these functions:
+Dealer::terminate();
+Player::terminate();
+Player::finished();
+
+we tested it by running multiple scenarios and outputing the order of the termination of the threads.
+
+--------------------
+
+3. Handling the config.turnTimeoutMillis value as follows:
+config.turnTimeoutMillis < 0: display nothing.
+config.turnTimeoutMillis = 0: display a timer since the last action (reshuffle or set collected).
+Note: in modes without a countdown timer the dealer must ensure there is always at least one legal set on the table.
+
+We are not entitled to this bonus.
+
+--------------------
+
+4. Making sure that the threads do not wake up unless some actual job needs to be done (e.g., a value needs to be
+changed on the display, key input needs to be handled, etc.) and the only threads created by you are:
+1 thread per player + 1 additional thread for non-human players.
+
+In our implementation the only threads created by you are:
+1 thread per player + 1 additional thread for non-human players.
+Those threads are sleeping unless some actual job needs to be done:
+the dealer sleeps as long as a player doesn't ask him to check a set or when the dealer need to update the time display.
+the player sleeps as long as no keys are pressed and when the dealer checks his set.
+
+this implementation is in these functions:
+Player::run();
+Dealer::sleepUntilWokenOrTimeout();
+
+we tested it by running multiple scenarios and seeing that the player and dealer are sleeping when we asked them to. 
+for example we checked that the players don't place tokens while the dealer checks their set.
+
+
+
